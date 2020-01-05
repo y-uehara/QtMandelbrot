@@ -17,10 +17,10 @@ public:
     FractalDrawer();
     ~FractalDrawer();
 
-    Q_PROPERTY(qreal minX READ getMinX WRITE setMinX NOTIFY coordinateChanged)
-    Q_PROPERTY(qreal minY READ getMinY WRITE setMinY NOTIFY coordinateChanged)
-    Q_PROPERTY(qreal maxX READ getMaxX WRITE setMaxX NOTIFY coordinateChanged)
-    Q_PROPERTY(qreal maxY READ getMaxY WRITE setMaxY NOTIFY coordinateChanged)
+    Q_PROPERTY(qreal minX READ getMinX WRITE setMinX NOTIFY redrawNeeded)
+    Q_PROPERTY(qreal minY READ getMinY WRITE setMinY NOTIFY redrawNeeded)
+    Q_PROPERTY(qreal maxX READ getMaxX WRITE setMaxX NOTIFY redrawNeeded)
+    Q_PROPERTY(qreal maxY READ getMaxY WRITE setMaxY NOTIFY redrawNeeded)
 
     Q_INVOKABLE void zoomOut();
     Q_INVOKABLE void zoomIn();
@@ -42,13 +42,17 @@ public:
 
 
 signals:
-    void coordinateChanged();
+    void redrawNeeded();
+
 
 private:
     unsigned char *m_data;
     CalcFractalBase *m_calculator;
 
     qreal m_minX, m_minY, m_maxX, m_maxY;
+
+    void updateImageAndNotify();
+
 };
 
 #endif // FRACTALDRAWER_H

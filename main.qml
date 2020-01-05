@@ -13,6 +13,17 @@ Window
     property double mouseRe: 0.0
     property double mouseIm: 0.0
 
+
+    Connections
+    {
+        target: fractalDrawer
+        onRedrawNeeded:
+        {
+            // redraw
+            drawnImage.source = "image://fractalDrawer/" + Math.random()
+        }
+    }
+
     RowLayout
     {
         anchors.fill: parent
@@ -31,23 +42,32 @@ Window
             {
                 anchors.fill: parent
                 hoverEnabled: true
+                onPressed:
+                {
+                    dragFrame.x = mouse.x
+                    dragFrame.y = mouse.y
+                    dragFrame.visible = true
+                }
+                onReleased: { dragFrame.visible = false }
                 onPositionChanged:
                 {
                     mouseRe = fractalDrawer.getRe(mouse.x)
                     mouseIm = fractalDrawer.getIm(mouse.y)
+
+                    if(pressed)
+                    {
+                        // TODO: drag
+                    }
                 }
             }
         }
         ColumnLayout
         {
             id: inputPain
-            anchors.top: parent.top
-            anchors.topMargin: 10
 
             spacing: 5
             Text
             {
-                anchors.horizontalCenter: parent.horizontalCenter
                 text: qsTr("Coordinates")
             }
             RowLayout
@@ -57,6 +77,7 @@ Window
                 {
                     id: realMin
                     text: fractalDrawer.minX
+                    onEditingFinished: { fractalDrawer.minX = parseFloat(text)    }
                 }
             }
             RowLayout
@@ -66,6 +87,7 @@ Window
                 {
                     id: realMax
                     text: fractalDrawer.maxX
+                    onEditingFinished: { fractalDrawer.maxX = parseFloat(text)    }
                 }
             }
             RowLayout
@@ -75,6 +97,7 @@ Window
                 {
                     id: imaginaryMin
                     text: fractalDrawer.minY
+                    onEditingFinished: { fractalDrawer.minY = parseFloat(text)    }
                 }
             }
             RowLayout
@@ -84,6 +107,7 @@ Window
                 {
                     id: imaginaryMax
                     text: fractalDrawer.maxY
+                    onEditingFinished: { fractalDrawer.maxY = parseFloat(text)    }
                 }
             }
             RowLayout
@@ -94,7 +118,6 @@ Window
                     onClicked:
                     {
                         fractalDrawer.zoomIn()
-                        drawnImage.source = "image://fractalDrawer/" + Math.random()
                     }
                 }
                 Button
@@ -103,17 +126,26 @@ Window
                     onClicked:
                     {
                         fractalDrawer.zoomOut()
-                        drawnImage.source = "image://fractalDrawer/" + Math.random()
                     }
                 }
             }
             Text
             {
                 id: positionIndicator
-                anchors.bottom: inputPain.bottom
-                anchors.right: inputPain.right
                 text: "position: " + mouseRe + " + " + mouseIm + "i"
             }
         }
+    }
+
+    // drag frame
+    Rectangle
+    {
+        id: dragFrame
+        visible: false
+        x: 100; y: 100
+        width: 100; height: 100
+        color: "#00000000"
+        border.color: "white"
+        border.width: 1
     }
 }

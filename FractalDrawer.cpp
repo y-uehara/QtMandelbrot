@@ -21,6 +21,16 @@ FractalDrawer::~FractalDrawer()
     delete m_calculator;
 }
 
+void FractalDrawer::updateImageAndNotify()
+{
+    if(m_calculator)
+        delete m_calculator;
+
+    m_calculator = new CalcMandelbrot(960, 960, m_minX, m_minY, m_maxX, m_maxY);
+
+    emit redrawNeeded();
+}
+
 QPixmap FractalDrawer::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
     Q_UNUSED(id);
@@ -42,10 +52,7 @@ void FractalDrawer::zoomIn()
     m_maxX /= 2;
     m_maxY /= 2;
 
-    delete m_calculator;
-    m_calculator = new CalcMandelbrot(960, 960, m_minX, m_minY, m_maxX, m_maxY);
-
-    emit coordinateChanged();
+    updateImageAndNotify();
 }
 
 void FractalDrawer::zoomOut()
@@ -55,10 +62,7 @@ void FractalDrawer::zoomOut()
     m_maxX *= 2;
     m_maxY *= 2;
 
-    delete m_calculator;
-    m_calculator = new CalcMandelbrot(960, 960, m_minX, m_minY, m_maxX, m_maxY);
-
-    emit coordinateChanged();
+    updateImageAndNotify();
 }
 
 
@@ -68,8 +72,7 @@ void FractalDrawer::setMinX(qreal value)
     {
         m_minX = value;
     }
-    emit coordinateChanged();
-    return;
+    updateImageAndNotify();
 }
 
 void FractalDrawer::setMinY(qreal value)
@@ -78,8 +81,7 @@ void FractalDrawer::setMinY(qreal value)
     {
         m_minY = value;
     }
-    emit coordinateChanged();
-    return;
+    updateImageAndNotify();
 }
 
 void FractalDrawer::setMaxX(qreal value)
@@ -88,8 +90,7 @@ void FractalDrawer::setMaxX(qreal value)
     {
         m_maxX = value;
     }
-    emit coordinateChanged();
-    return;
+    updateImageAndNotify();
 }
 
 void FractalDrawer::setMaxY(qreal value)
@@ -98,6 +99,5 @@ void FractalDrawer::setMaxY(qreal value)
     {
         m_maxY = value;
     }
-    emit coordinateChanged();
-    return;
+    updateImageAndNotify();
 }
