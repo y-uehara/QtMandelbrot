@@ -50,7 +50,15 @@ Window
                 dragFrame.height = 1
                 dragFrame.visible = true
             }
-            onReleased: { dragFrame.visible = false }
+            onReleased:
+            {
+                dragFrame.visible = false
+
+                fractalDrawer.changeRange(Math.min(mouseRe, fractalDrawer.getRe(dragStart.x)),
+                                          Math.min(mouseIm, fractalDrawer.getIm(dragStart.y)),
+                                          Math.max(mouseRe, fractalDrawer.getRe(dragStart.x)),
+                                          Math.max(mouseIm, fractalDrawer.getIm(dragStart.y)))
+            }
             onPositionChanged:
             {
                 mouseRe = fractalDrawer.getRe(mouse.x)
@@ -139,6 +147,7 @@ Window
             {
                 Layout.alignment: Qt.AlignCenter
                 text: qsTr("Reset")
+                onClicked: fractalDrawer.resetRange()
             }
 
             Text
@@ -153,18 +162,12 @@ Window
                 Button
                 {
                     text: qsTr("Zoom In")
-                    onClicked:
-                    {
-                        fractalDrawer.zoomIn()
-                    }
+                    onClicked: fractalDrawer.zoomIn()
                 }
                 Button
                 {
                     text: qsTr("Zoom Out")
-                    onClicked:
-                    {
-                        fractalDrawer.zoomOut()
-                    }
+                    onClicked: fractalDrawer.zoomOut()
                 }
             }
         }
@@ -172,7 +175,7 @@ Window
         {
             anchors.bottom: parent.bottom
             id: positionIndicator
-            text: "position: " + mouseRe + " + " + mouseIm + "i"
+            text: qsTr("position: " + mouseRe + " + " + mouseIm + "i")
         }
     }
 

@@ -45,59 +45,17 @@ QPixmap FractalDrawer::requestPixmap(const QString &id, QSize *size, const QSize
     return QPixmap::fromImage(drawnImage);
 }
 
-void FractalDrawer::zoomIn()
+
+void FractalDrawer::changeRange(qreal minX, qreal minY, qreal maxX, qreal maxY)
 {
-    m_minX /= 2;
-    m_minY /= 2;
-    m_maxX /= 2;
-    m_maxY /= 2;
-
-    updateImageAndNotify();
-}
-
-void FractalDrawer::zoomOut()
-{
-    m_minX *= 2;
-    m_minY *= 2;
-    m_maxX *= 2;
-    m_maxY *= 2;
-
-    updateImageAndNotify();
-}
-
-
-void FractalDrawer::setMinX(qreal value)
-{
-    if(value < m_maxX)
+    if(minX < maxX && minY < maxY)
     {
-        m_minX = value;
-    }
-    updateImageAndNotify();
-}
+        m_minX = minX;
+        m_minY = minY;
+        m_maxX = maxX;
+        m_maxY = maxY;
 
-void FractalDrawer::setMinY(qreal value)
-{
-    if(value < m_maxY)
-    {
-        m_minY = value;
+        updateImageAndNotify();
     }
-    updateImageAndNotify();
-}
-
-void FractalDrawer::setMaxX(qreal value)
-{
-    if(value > m_minX)
-    {
-        m_maxX = value;
-    }
-    updateImageAndNotify();
-}
-
-void FractalDrawer::setMaxY(qreal value)
-{
-    if(value > m_minY)
-    {
-        m_maxY = value;
-    }
-    updateImageAndNotify();
+    emit reloadRange();
 }
