@@ -17,6 +17,7 @@ SOURCES += \
         CalcFractalBase.cpp \
         CalcMandelbrot.cpp \
         FractalDrawer.cpp \
+        SizeSettings.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -35,6 +36,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     CalcFractalBase.h \
     CalcMandelbrot.h \
-    FractalDrawer.h
+    FractalDrawer.h \
+    SizeSettings.h
 
 DISTFILES +=

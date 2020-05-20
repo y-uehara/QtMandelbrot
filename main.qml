@@ -6,8 +6,8 @@ import QtQuick.Layouts 1.12
 Window
 {
     visible: true
-    width: 1280
-    height: 960
+    width: sizeSettings.getWindowWidth()
+    height: sizeSettings.getWindowHeight()
     title: qsTr("Hello Fractal")
 
     property double mouseRe: 0.0
@@ -28,8 +28,8 @@ Window
     Image
     {
         id: drawnImage
-        height: 960
-        width: 960
+        height: sizeSettings.getCanvasWidth()
+        width: sizeSettings.getWindowHeight()
         anchors.top: parent.top
         anchors.left: parent.left
 

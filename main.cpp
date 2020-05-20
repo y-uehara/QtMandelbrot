@@ -2,17 +2,21 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include "SizeSettings.h"
 #include "FractalDrawer.h"
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    //QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
 
-    FractalDrawer fractalDrawer;
+    SizeSettings sizeSettings;
+    engine.rootContext()->setContextProperty("sizeSettings", &sizeSettings);
+
+    FractalDrawer fractalDrawer(sizeSettings.getCanvasWidth(), sizeSettings.getCanvasHeight());
     engine.addImageProvider(QLatin1String("fractalDrawer"), &fractalDrawer);
     engine.rootContext()->setContextProperty("fractalDrawer", &fractalDrawer);
 
