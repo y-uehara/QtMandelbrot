@@ -11,14 +11,15 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    SizeSettings sizeSettings;
+    FractalDrawer *fractalDrawer(new FractalDrawer(sizeSettings.getCanvasWidth(), sizeSettings.getCanvasHeight()));
+
     QQmlApplicationEngine engine;
 
-    SizeSettings sizeSettings;
     engine.rootContext()->setContextProperty("sizeSettings", &sizeSettings);
 
-    FractalDrawer fractalDrawer(sizeSettings.getCanvasWidth(), sizeSettings.getCanvasHeight());
-    engine.addImageProvider(QLatin1String("fractalDrawer"), &fractalDrawer);
-    engine.rootContext()->setContextProperty("fractalDrawer", &fractalDrawer);
+    engine.addImageProvider(QLatin1String("fractalDrawer"), fractalDrawer);
+    engine.rootContext()->setContextProperty("fractalDrawer", fractalDrawer);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
