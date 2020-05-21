@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     SizeSettings sizeSettings;
-    FractalDrawer *fractalDrawer(new FractalDrawer(sizeSettings.getCanvasWidth(), sizeSettings.getCanvasHeight()));
+    auto *fractalDrawer = new FractalDrawer(sizeSettings.getCanvasWidth(), sizeSettings.getCanvasHeight());
 
     QQmlApplicationEngine engine;
 
