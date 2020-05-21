@@ -3,16 +3,20 @@
 SizeSettings::SizeSettings(QObject *parent) : QObject(parent)
 {
 #ifdef RASPBERRYPI
-    m_window_width = 640;
-    m_window_height = 480;
+    m_isFullScreen = true;
 
-    m_canvas_width = 480;
-    m_canvas_height = 480;
+    m_windowWidth = 640;
+    m_windowHeight = 480;
+
+    m_canvasWidth = 480;
+    m_canvasHeight = 480;
 #else
-    m_window_width = 1280;
-    m_window_height = 960;
+    m_isFullScreen = false;
 
-    m_canvas_width = 960;
-    m_canvas_height = 960;
+    m_windowWidth = 1280;
+    m_windowHeight = 960;
+
+    m_canvasWidth = 960;
+    m_canvasHeight = 960;
 #endif
 }

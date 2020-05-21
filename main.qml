@@ -15,6 +15,8 @@ Window
     height: sizeSettings.getWindowHeight()
     title: qsTr("Hello Fractal")
 
+    visibility: sizeSettings.isFullScreen() ? "FullScreen" : "Windowed"
+
     property double mouseRe: 0.0
     property double mouseIm: 0.0
 

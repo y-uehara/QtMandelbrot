@@ -9,21 +9,23 @@ class SizeSettings : public QObject
 public:
     explicit SizeSettings(QObject *parent = nullptr);
 
-    Q_INVOKABLE int getWindowWidth() { return m_window_width; }
-    Q_INVOKABLE int getWindowHeight() { return m_window_height; }
-    Q_INVOKABLE int getCanvasWidth() { return m_canvas_width; }
-    Q_INVOKABLE int getCanvasHeight() { return m_canvas_height; }
-
+    Q_INVOKABLE bool isFullScreen() { return m_isFullScreen; }
+    Q_INVOKABLE int getWindowWidth() { return m_windowWidth; }
+    Q_INVOKABLE int getWindowHeight() { return m_windowHeight; }
+    Q_INVOKABLE int getCanvasWidth() { return m_canvasWidth; }
+    Q_INVOKABLE int getCanvasHeight() { return m_canvasHeight; }
 
 signals:
 
 
 private:
-    int m_window_width;
-    int m_window_height;
+    bool m_isFullScreen;
 
-    int m_canvas_width;
-    int m_canvas_height;
+    int m_windowWidth;
+    int m_windowHeight;
+
+    int m_canvasWidth;
+    int m_canvasHeight;
 };
 
 #endif // SIZESETTINGS_H
