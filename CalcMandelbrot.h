@@ -6,10 +6,10 @@
 class CalcMandelbrot : public CalcFractalBase
 {
 public:
-    CalcMandelbrot(int pixelWidth, int pixelHeight, double minX, double minY, double maxX, double maxY);
+    CalcMandelbrot(int pixelWidth, int pixelHeight);
     ~CalcMandelbrot();
 
-    void calc(unsigned char *data) override;
+    void calc(unsigned char *data, double minX, double minY, double maxX, double maxY) override;
 
 private:
     int calcDivergence(std::complex<double> c);

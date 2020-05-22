@@ -1,7 +1,7 @@
 #include "CalcMandelbrot.h"
 
-CalcMandelbrot::CalcMandelbrot(int pixelWidth, int pixelHeight, double minX, double minY, double maxX, double maxY) :
-    CalcFractalBase(pixelWidth, pixelHeight, minX, minY, maxX, maxY)
+CalcMandelbrot::CalcMandelbrot(int pixelWidth, int pixelHeight) :
+    CalcFractalBase(pixelWidth, pixelHeight)
 {
 
 }
@@ -11,15 +11,15 @@ CalcMandelbrot::~CalcMandelbrot()
 
 }
 
-void CalcMandelbrot::calc(unsigned char *data)
+void CalcMandelbrot::calc(unsigned char *data, double minX, double minY, double maxX, double maxY)
 {
     for(int i = 0; i < m_pixelHeight; i++)
     {
         for(int j = 0; j < m_pixelWidth; j++)
         {
             // calc related complex number for the pixel
-            std::complex<double> c((m_minX + (m_maxX - m_minX) * j / m_pixelWidth),
-                                   (m_minY + (m_maxY - m_minY) * i / m_pixelHeight));
+            std::complex<double> c((minX + (maxX - minX) * j / m_pixelWidth),
+                                   (minY + (maxY - minY) * i / m_pixelHeight));
 
             int divergence = calcDivergence(c);
 

@@ -4,6 +4,7 @@
 
 #include "SizeSettings.h"
 #include "FractalDrawer.h"
+#include "FractalImageProvider.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,14 +13,16 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     SizeSettings sizeSettings;
-    auto *fractalDrawer = new FractalDrawer(sizeSettings.getCanvasWidth(), sizeSettings.getCanvasHeight());
+    FractalDrawer fractalDrawer(sizeSettings.getCanvasWidth(), sizeSettings.getCanvasHeight());
+    auto *fractalImageProvider = new FractalImageProvider(&fractalDrawer, sizeSettings.getCanvasWidth(), sizeSettings.getCanvasHeight());
+
 
     QQmlApplicationEngine engine;
 
     engine.rootContext()->setContextProperty("sizeSettings", &sizeSettings);
 
-    engine.addImageProvider(QLatin1String("fractalDrawer"), fractalDrawer);
-    engine.rootContext()->setContextProperty("fractalDrawer", fractalDrawer);
+    engine.addImageProvider(QLatin1String("fractalDrawer"), fractalImageProvider);
+    engine.rootContext()->setContextProperty("fractalDrawer", &fractalDrawer);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

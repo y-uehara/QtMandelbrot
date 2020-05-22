@@ -6,10 +6,10 @@
 class CalcFractalBase
 {
 public:
-    CalcFractalBase(int pixelWidth, int pixelHeight, double minX, double minY, double maxX, double maxY);
+    CalcFractalBase(int pixelWidth, int pixelHeight);
     virtual ~CalcFractalBase();
 
-    virtual void calc(unsigned char *data) = 0;
+    virtual void calc(unsigned char *data, double minX, double minY, double maxX, double maxY) = 0;
 
 protected:
     // (0,0)  (1,0)
@@ -23,11 +23,6 @@ protected:
 
     int m_pixelWidth;
     int m_pixelHeight;
-
-    double m_minX;
-    double m_minY;
-    double m_maxX;
-    double m_maxY;
 };
 
 #endif // CALCFRACTALBASE_H

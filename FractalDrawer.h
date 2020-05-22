@@ -2,19 +2,16 @@
 #define FRACTALDRAWER_H
 
 #include <QObject>
-#include <QQuickImageProvider>
-#include <QPixmap>
 
 #include "CalcFractalBase.h"
 #include "CalcMandelbrot.h"
 
-// QObject must be inherit at first!!
-class FractalDrawer : public QObject, public QQuickImageProvider
+class FractalDrawer : public QObject
 {
     Q_OBJECT
 
 public:
-    FractalDrawer(int x, int y);
+    FractalDrawer(int width, int height);
     ~FractalDrawer();
 
     Q_PROPERTY(qreal minX READ getMinX WRITE setMinX NOTIFY reloadRange)
@@ -28,10 +25,10 @@ public:
     Q_INVOKABLE void resetRange() { changeRange(-2.0, -2.0, 2.0, 2.0); }
     Q_INVOKABLE void changeRange(qreal minX, qreal minY, qreal maxX, qreal maxY);
 
-    Q_INVOKABLE qreal getRe(int value) { return (m_minX + (value * (m_maxX - m_minX) / m_canvas_x)); }
-    Q_INVOKABLE qreal getIm(int value) { return (m_minY + (value * (m_maxY - m_minY) / m_canvas_y)); }
+    Q_INVOKABLE qreal getRe(int value) { return (m_minX + (value * (m_maxX - m_minX) / m_canvasWidth)); }
+    Q_INVOKABLE qreal getIm(int value) { return (m_minY + (value * (m_maxY - m_minY) / m_canvasHeight)); }
 
-    QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize) Q_DECL_OVERRIDE;
+    void setImageBitmap(unsigned char* data);
 
     void setMinX(qreal value) { changeRange(value, m_minY, m_maxX, m_maxY); }
     void setMinY(qreal value) { changeRange(m_minX, value, m_maxX, m_maxY); }
@@ -49,15 +46,11 @@ signals:
     void reloadRange();
 
 private:
-    int m_canvas_x;
-    int m_canvas_y;
-    unsigned char *m_data;
+    int m_canvasWidth;
+    int m_canvasHeight;
     CalcFractalBase *m_calculator;
 
     qreal m_minX, m_minY, m_maxX, m_maxY;
-
-    void updateImageAndNotify();
-
 };
 
 #endif // FRACTALDRAWER_H

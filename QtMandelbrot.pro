@@ -17,6 +17,7 @@ SOURCES += \
         CalcFractalBase.cpp \
         CalcMandelbrot.cpp \
         FractalDrawer.cpp \
+        FractalImageProvider.cpp \
         SizeSettings.cpp \
         main.cpp
 
@@ -37,6 +38,7 @@ HEADERS += \
     CalcFractalBase.h \
     CalcMandelbrot.h \
     FractalDrawer.h \
+    FractalImageProvider.h \
     SizeSettings.h
 
 DISTFILES +=
